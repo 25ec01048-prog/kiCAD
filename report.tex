@@ -1,0 +1,257 @@
+% ============================================================
+%  EC2L104 - Introduction to EDA Tools : Module 10 Lab Report
+%  Minimal template. Two colours only: accent (navy) + muted (grey).
+%  Fill every \blank, table cell and answer area. Put screenshots
+%  in a "figures/" folder using the file names shown; until then a
+%  grey placeholder box is printed.
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{pgffor}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb}
+\usepackage[colorlinks=true,linkcolor=accent,urlcolor=accent]{hyperref}
+
+% ---------- the only two colours ----------
+\definecolor{accent}{HTML}{1F3A5F}   % navy
+\definecolor{muted}{HTML}{8A8A8A}    % grey
+
+% ---------- headings ----------
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0pt}{}[\vspace{-0.6em}\color{accent}\rule{\linewidth}{0.6pt}]
+\titleformat{\subsection}{\normalsize\bfseries\color{accent}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.6em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.4em}
+
+% ---------- header / footer ----------
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[L]{\small\color{muted}EC2L104 -- Introduction to EDA Tools}
+\fancyhead[R]{\small\color{muted}Module 10 Lab Report}
+\fancyfoot[C]{\small\color{muted}\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.5}
+\usepackage[font=small,labelfont={bf,color=accent},textfont={color=muted}]{caption}
+
+% ---------- fill-in helpers ----------
+\newcommand{\blank}[1][3cm]{\underline{\hspace{#1}}}
+\newcommand{\answerlines}[1]{\par\vspace{0.3em}\foreach \i in {1,...,#1}{\noindent{\color{muted}\rule{\linewidth}{0.3pt}}\par\vspace{1.3em}}}
+\newcommand{\checkpoint}[1]{\par\noindent{\small\bfseries\color{accent}CHECKPOINT\quad}{\small\color{muted}#1}\par}
+\newcommand{\question}[1]{\par\noindent{\bfseries\color{accent}Answer.\ }#1\par}
+\newcommand{\shot}[3][5.5cm]{%
+  \begin{figure}[H]\centering
+  \IfFileExists{#2}%
+    {\includegraphics[width=\linewidth,height=#1,keepaspectratio]{#2}}%
+    {\fcolorbox{muted}{white}{\parbox[c][#1][c]{0.94\linewidth}{\centering\color{muted}Insert: #3\\[2pt]\small\texttt{#2}}}}%
+  \caption{#3}\end{figure}}
+\newcommand{\cell}{\color{muted}\rule{0pt}{1em}}   % empty table cell marker
+
+\begin{document}
+
+% ================= TITLE =================
+\begin{center}
+  {\color{accent}\rule{\linewidth}{1.2pt}}\\[0.9em]
+  {\LARGE\bfseries PCB Design with KiCad -- Lab Report}\\[0.4em]
+  {\color{muted}CMOS Inverter with Discrete MOSFETs (2N7000 / BS250)}\\[0.6em]
+  {\color{accent}\rule{\linewidth}{1.2pt}}
+\end{center}
+
+\begin{tabularx}{\linewidth}{@{}l X l X@{}}
+  \textbf{Name} & \blank[5.5cm] & \textbf{Roll No.} & \blank[4cm] \\
+  \textbf{Section} & \blank[5.5cm] & \textbf{Date} & \blank[4cm] \\
+  \textbf{GitHub repo} & \multicolumn{3}{l}{\blank[12cm]} \\
+\end{tabularx}
+
+\subsection*{Summary}
+\textit{(3--5 lines: what you built, the main result, and the main thing that surprised you.)}
+\answerlines{4}
+
+% ================= EXERCISE 0 =================
+\section{Exercise 0 -- Pre-KiCad: Simulate Before You Build}
+
+\subsection{L1. LTspice schematic}
+Transistor models used: Q1 = \blank[3cm] (source: \blank[4cm]); Q2 = \blank[3cm] (source: \blank[4cm]).\\
+LED / diode model: \blank[4cm]\quad R1 = \blank[2cm]\quad VDD = \blank[1.5cm]
+\shot[6.5cm]{figures/l1-schematic.png}{LTspice schematic with model names visible}
+\checkpoint{schematic screenshot with model names visible}
+
+\subsection{L2. Voltage transfer curve}
+Command: \texttt{.dc VIN 0 5 0.01}\quad Switching threshold $V_M$ ($V_{OUT}=V_{DD}/2$) = \blank[2cm] V.
+\shot[6.5cm]{figures/l2-vtc.png}{VTC with $V_M$ marked}
+Flat dead zone observed?\quad $\square$ Yes \quad $\square$ No \quad Range of $V_{IN}$: \blank[2cm] to \blank[2cm] V
+
+With $V_{DD}=9$\,V: $V_M=$ \blank[2cm] V; dead zone now \blank[2cm] to \blank[2cm] V.
+\question{What changes with $V_{DD}$, and why does the dead zone exist? (Hint: $|V_{TH}|$ of each device vs.\ $V_{DD}$.)}
+\answerlines{4}
+\checkpoint{VTC plot with $V_M$ marked, and your answer on the dead zone}
+
+\subsection{L3. LED current and transient}
+$I_{LED}$ at $V_{IN}=0$\,V from simulation: \blank[2cm]\,mA.\\
+Hand calculation $(V_{DD}-V_F)/R_1 = (\blank[1cm]-\blank[1cm])/\blank[1cm] =$ \blank[2cm]\,mA. \quad Difference: \blank[1.5cm]\,\%
+
+\texttt{.meas} statements used:
+\answerlines{2}
+
+\begin{table}[H]\centering
+\begin{tabularx}{0.85\linewidth}{@{}>{\bfseries}l X X@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} & \textbf{Unit} \\
+\midrule
+$V_M$ & \cell & V \\
+$I_{LED}$ & \cell & mA \\
+$t_r$ (10--90\,\%) & \cell & \\
+$t_f$ (90--10\,\%) & \cell & \\
+\bottomrule
+\end{tabularx}
+\caption{Simulation results summary}
+\end{table}
+\shot[5.5cm]{figures/l3-transient.png}{Transient response, 0--5\,V pulse at 1\,kHz}
+\checkpoint{small table: $V_M$, $I_{LED}$, $t_r$, $t_f$}
+
+\subsection{L4. Python plot}
+Script name: \blank[5cm]\quad Commit link: \blank[9cm]
+\shot[6.5cm]{figures/l4-vtc-python.png}{VTC reproduced in Python (300\,dpi)}
+\checkpoint{PNG, script, and commit link}
+
+\subsection{L5. Comparison with 65\,nm}
+\shot[6.5cm]{figures/l5-overlay.png}{Normalised VTC overlay: $V_{OUT}/V_{DD}$ vs.\ $V_{IN}/V_{DD}$}
+\question{In two sentences, why do the shapes differ?}
+\answerlines{3}
+\checkpoint{overlay plot and two-sentence explanation}
+
+% ================= EXERCISE 1 =================
+\section{Exercise 1 -- Schematic Capture and ERC}
+Project name (roll number): \blank[4cm]\quad Submitted file: \texttt{<roll>\_INV.kicad\_sch} $\square$
+
+Checklist: $\square$ Eight symbols placed \quad $\square$ Q2 flipped \quad $\square$ +5V, GND, 2$\times$PWR\_FLAG \quad $\square$ POT\_W and VIN labelled and brought to J2 \quad $\square$ Annotated
+
+\shot[6cm]{figures/e1-erc.png}{ERC dialog: 0 errors, 0 warnings}
+\question{Why does this schematic need a PWR\_FLAG at all?}
+\answerlines{3}
+\question{What would change if the 5\,V came from an on-board regulator instead of a screw terminal?}
+\answerlines{3}
+
+% ================= EXERCISE 2 =================
+\section{Exercise 2 -- Footprints}
+Exact part numbers issued: 2N7000 \blank[3.5cm] \quad BS250 \blank[3.5cm] \quad Manufacturer(s): \blank[4cm]
+
+\begin{table}[H]\centering
+\begin{tabularx}{\linewidth}{@{}l c X X X@{}}
+\toprule
+\textbf{Part} & \textbf{Lead / Pin} & \textbf{KiCad symbol pin} & \textbf{Datasheet lead} & \textbf{Agree?} \\
+\midrule
+\multirow{3}{*}{Q1 (2N7000)} & 1 & \cell & \cell & \cell \\
+ & 2 & \cell & \cell & \cell \\
+ & 3 & \cell & \cell & \cell \\
+\midrule
+\multirow{3}{*}{Q2 (BS250)} & 1 & \cell & \cell & \cell \\
+ & 2 & \cell & \cell & \cell \\
+ & 3 & \cell & \cell & \cell \\
+\bottomrule
+\end{tabularx}
+\caption{Symbol pins vs.\ datasheet leads (write S, G or D in each cell)}
+\end{table}
+Netlist update (F8) report: \blank[1cm] warnings, \blank[1cm] errors.
+
+\question{Do your two parts agree with their symbols? For any that does not, give two ways to deal with it on a board that has already been fabricated.}
+\answerlines{5}
+
+% ================= EXERCISE 3 =================
+\section{Exercise 3 -- Layout, Routing and DRC}
+Checklist: $\square$ 50$\times$40\,mm outline on Edge.Cuts \quad $\square$ Four M3 holes, 4\,mm from corners, Not in schematic \quad $\square$ Power net class (+5V, GND) \quad $\square$ GND pour on B.Cu with thermal reliefs \quad $\square$ Silkscreen $\ge$1\,mm inside outline
+
+Track widths: signal \blank[1.5cm]\,mm \quad Power \blank[1.5cm]\,mm \quad Clearance \blank[1.5cm]\,mm \quad Via \blank[1.5cm]\,mm
+
+\shot[6cm]{figures/e3-drc.png}{DRC dialog: Violations, Unconnected Items, Schematic Parity all 0}
+\shot[7cm]{figures/e3-3d-top.png}{3D viewer, top of the board}
+
+\subsection*{+5V track resistance (J1 to Q2)}
+\[
+R=\frac{\rho L}{w\,t},\qquad \rho_{Cu}=1.68\times10^{-8}\,\Omega\,\mathrm{m},\quad t=35\,\mu\mathrm{m}
+\]
+Measured length $L=$ \blank[2cm]\,mm \quad Width $w=$ \blank[2cm]\,mm\\[0.4em]
+$R=\dfrac{1.68\times10^{-8}\,\times\,(\blank[1.4cm]\times10^{-3})}{(\blank[1.4cm]\times10^{-3})\times(35\times10^{-6})}=$ \blank[2cm]\,$\Omega$\\[0.4em]
+Voltage drop at $I=$ \blank[1.5cm]\,mA: $\Delta V=$ \blank[2cm]\,mV \quad (\blank[1.5cm]\,\% of 5\,V)
+
+\question{Does the width you chose matter electrically on this board? Justify with a number.}
+\answerlines{3}
+
+% ================= EXERCISE 4 =================
+\section{Exercise 4 -- Manufacturing Outputs}
+\begin{table}[H]\centering
+\begin{tabularx}{\linewidth}{@{}X c c@{}}
+\toprule
+\textbf{Deliverable} & \textbf{Done} & \textbf{Checked in GerbView} \\
+\midrule
+Gerbers plotted to \texttt{gerbers/} & $\square$ & $\square$ \\
+Drill files (PTH + NPTH) & $\square$ & $\square$ \\
+Outline / drill holes / silkscreen verified & -- & $\square$ \\
+BOM exported as CSV & $\square$ & -- \\
+\texttt{<roll>\_INV\_gerbers.zip} & $\square$ & -- \\
+Project archive zip & $\square$ & -- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+Number of Gerber layers loaded: \blank[1.2cm] \quad Board size read back in GerbView: \blank[1.5cm]\,$\times$\,\blank[1.5cm]\,mm
+\shot[7cm]{figures/e4-gerbview.png}{GerbView with all layers loaded}
+\question{Name a file which, if omitted from the zip, still lets the factory quote a price but produces an unusable board. Justify.}
+\answerlines{4}
+
+% ================= EXERCISE 5 =================
+\section{Exercise 5 -- Extra Explorations (Optional)}
+Change attempted (tick one): $\square$ 1 Non-inverting buffer \quad $\square$ 2 LED lights on low output \quad $\square$ 3 Min.\ clearance 0.4\,mm \quad $\square$ 4 Header instead of trimpot, shrunk board
+
+\subsection*{Simulation / design description}
+\answerlines{4}
+\shot[6cm]{figures/e5-sim.png}{Simulation of the modified circuit (if applicable)}
+\shot[6cm]{figures/e5-layout.png}{Modified layout with clean DRC}
+
+\subsection*{Cost of the change}
+\begin{table}[H]\centering
+\begin{tabularx}{\linewidth}{@{}l X X X@{}}
+\toprule
+\textbf{Metric} & \textbf{Original} & \textbf{Modified} & \textbf{Change} \\
+\midrule
+Board area (mm$^2$) & \cell & \cell & \cell \\
+Trace length A--B (mm) & \cell & \cell & \cell \\
+Trace length C--D (mm) & \cell & \cell & \cell \\
+Number of vias & \cell & \cell & \cell \\
+Parts moved / re-routed & \cell & \cell & \cell \\
+\bottomrule
+\end{tabularx}
+\caption{Original (Exercise 4) vs.\ modified design; label pins with letters and state which distances changed}
+\end{table}
+\subsection*{Explanation and conclusion}
+\answerlines{5}
+
+% ================= CONCLUSION =================
+\section{Overall Observations and Conclusions}
+\textbf{Simulation vs.\ board:} (what you expect the board to do, and the figures to test it against)
+\answerlines{3}
+\textbf{Key lessons:}
+\begin{enumerate}[leftmargin=1.5em,label=\color{accent}\arabic*.]
+  \item \blank[14cm]
+  \item \blank[14cm]
+  \item \blank[14cm]
+\end{enumerate}
+
+\subsection*{Submission checklist}
+\begin{tabularx}{\linewidth}{@{}X X@{}}
+$\square$ Report (this PDF) & $\square$ \texttt{<roll>\_INV.kicad\_sch} \\
+$\square$ \texttt{<roll>\_INV.kicad\_pcb} & $\square$ \texttt{<roll>\_INV\_gerbers.zip} \\
+$\square$ Project archive & $\square$ BOM \texttt{.csv} \\
+$\square$ Python script, PNG and commit link & $\square$ All screenshots full-window and readable \\
+\end{tabularx}
+
+\end{document}
