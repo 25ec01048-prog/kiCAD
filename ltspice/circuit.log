@@ -1,6 +1,6 @@
 LTspice 26.1.1 for Windows
 Circuit: C:\Users\tulad\study\eda\25EC01048_inv\circuit.net
-Start Time: Sat Nov 14 12:10:25 2026
+Start Time: Sun Nov 15 10:46:09 2026
 solver = Normal
 Maximum thread count: 8
 tnom = 27
@@ -8,15 +8,15 @@ temp = 27
 method = trap
 C:\Users\tulad\study\eda\25EC01048_inv\circuit.net(5): Limiting rise time to 5e-05.
 
-Vin N001 0 PULSE(0 5 0 0 0 0.5ms 1ms 3)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Vin in 0 PULSE(0 5 0 0 0 0.5ms 1ms 3)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 C:\Users\tulad\study\eda\25EC01048_inv\circuit.net(5): Limiting fall time to 5e-05.
 
-Vin N001 0 PULSE(0 5 0 0 0 0.5ms 1ms 3)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Vin in 0 PULSE(0 5 0 0 0 0.5ms 1ms 3)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Instance "u2:M2": Length shorter than recommended for a level 1 MOSFET.
 Direct Newton iteration succeeded in finding operating point.
-Total elapsed time: 0.101 seconds.
+Total elapsed time: 0.128 seconds.
 Total iterations: 3953
 
 Files loaded:

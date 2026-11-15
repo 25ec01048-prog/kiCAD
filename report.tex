@@ -1,257 +1,290 @@
 % ============================================================
 %  EC2L104 - Introduction to EDA Tools : Module 10 Lab Report
-%  Minimal template. Two colours only: accent (navy) + muted (grey).
-%  Fill every \blank, table cell and answer area. Put screenshots
-%  in a "figures/" folder using the file names shown; until then a
-%  grey placeholder box is printed.
+%  Minimal style. Two colours only: accent (navy) + muted (grey).
+%  Screenshots go in "figures/" using the file names shown; until
+%  then a grey placeholder box is printed.
 % ============================================================
 \documentclass[11pt,a4paper]{article}
 
-\usepackage[margin=2.2cm]{geometry}
+\usepackage[margin=2.3cm,headheight=14pt]{geometry}
 \usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{colortbl}
 \usepackage{enumitem}
 \usepackage{titlesec}
+\usepackage{needspace}
+\usepackage{etoolbox}
 \usepackage{fancyhdr}
-\usepackage{pgffor}
 \usepackage{multirow}
+\usepackage{pgffor}
 \usepackage{amsmath,amssymb}
 \usepackage[colorlinks=true,linkcolor=accent,urlcolor=accent]{hyperref}
 
 % ---------- the only two colours ----------
-\definecolor{accent}{HTML}{1F3A5F}   % navy
-\definecolor{muted}{HTML}{8A8A8A}    % grey
+\definecolor{accent}{HTML}{093b81}   % navy
+\definecolor{muted}{HTML}{5f5f5f}    % grey
+
+% ---------- text ----------
+\linespread{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\sloppy
 
 % ---------- headings ----------
-\titleformat{\section}{\large\bfseries\color{accent}}{}{0pt}{}[\vspace{-0.6em}\color{accent}\rule{\linewidth}{0.6pt}]
-\titleformat{\subsection}{\normalsize\bfseries\color{accent}}{}{0pt}{}
-\titlespacing*{\section}{0pt}{1.6em}{0.8em}
-\titlespacing*{\subsection}{0pt}{1.1em}{0.4em}
+\titleformat{\section}{\Large\bfseries\color{accent}}{}{0pt}{}[\vspace{-0.5em}{\color{accent}\rule{\linewidth}{0.8pt}}]
+\titleformat{\subsection}{\normalsize\bfseries\color{accent}}{}{0pt}{\raisebox{0.02em}{\rule{0.42em}{0.42em}}\hspace{0.55em}}
+\titlespacing*{\section}{0pt}{2em}{1em}
+\titlespacing*{\subsection}{0pt}{1.3em}{0.4em}
 
+% ---------- keep headings with their content ----------
+\pretocmd{\section}{\Needspace{0.32\textheight}}{}{}
+\pretocmd{\subsection}{\Needspace{0.30\textheight}}{}{}
 % ---------- header / footer ----------
 \pagestyle{fancy}\fancyhf{}
 \renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\headrule}{{\color{muted}\hrule width\headwidth height\headrulewidth}}
 \fancyhead[L]{\small\color{muted}EC2L104 -- Introduction to EDA Tools}
 \fancyhead[R]{\small\color{muted}Module 10 Lab Report}
-\fancyfoot[C]{\small\color{muted}\thepage}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5em}
-\renewcommand{\arraystretch}{1.5}
-\usepackage[font=small,labelfont={bf,color=accent},textfont={color=muted}]{caption}
+\fancyfoot[L]{\small\color{muted}25EC01048}
+\fancyfoot[R]{\small\color{muted}\thepage}
 
-% ---------- fill-in helpers ----------
-\newcommand{\blank}[1][3cm]{\underline{\hspace{#1}}}
-\newcommand{\answerlines}[1]{\par\vspace{0.3em}\foreach \i in {1,...,#1}{\noindent{\color{muted}\rule{\linewidth}{0.3pt}}\par\vspace{1.3em}}}
-\newcommand{\checkpoint}[1]{\par\noindent{\small\bfseries\color{accent}CHECKPOINT\quad}{\small\color{muted}#1}\par}
-\newcommand{\question}[1]{\par\noindent{\bfseries\color{accent}Answer.\ }#1\par}
-\newcommand{\shot}[3][5.5cm]{%
+% ---------- tables ----------
+\renewcommand{\arraystretch}{1.4}
+\setlength{\heavyrulewidth}{0.8pt}
+\setlength{\lightrulewidth}{0.4pt}
+\arrayrulecolor{accent}
+
+% ---------- captions ----------
+\usepackage[font=small,labelfont={bf,color=accent},textfont={color=muted},justification=centering,skip=6pt]{caption}
+
+% ---------- helpers ----------
+\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.5pt}
+\newcommand{\question}[1]{\par\noindent{\bfseries\color{accent}Q.\ }{\bfseries #1}\par}
+\newcommand{\answerlines}[1]{\par\vspace{0.2em}\foreach \i in {1,...,#1}{\noindent{\color{muted}\rule{\linewidth}{0.3pt}}\par\vspace{1.4em}}}
+
+\newcommand{\topic}[1]{\par\Needspace{0.22\textheight}\vspace{0.2em}\noindent{\bfseries\color{accent}#1}\par\nobreak}
+\newcommand{\shot}[3][6.5cm]{%
   \begin{figure}[H]\centering
   \IfFileExists{#2}%
-    {\includegraphics[width=\linewidth,height=#1,keepaspectratio]{#2}}%
-    {\fcolorbox{muted}{white}{\parbox[c][#1][c]{0.94\linewidth}{\centering\color{muted}Insert: #3\\[2pt]\small\texttt{#2}}}}%
+    {\fcolorbox{muted}{white}{\includegraphics[width=0.96\linewidth,height=#1,keepaspectratio]{#2}}}%
+    {\fcolorbox{muted}{white}{\parbox[c][#1][c]{0.96\linewidth}{\centering\color{muted}Insert: #3\\[2pt]\small\texttt{#2}}}}%
   \caption{#3}\end{figure}}
-\newcommand{\cell}{\color{muted}\rule{0pt}{1em}}   % empty table cell marker
 
 \begin{document}
 
 % ================= TITLE =================
 \begin{center}
-  {\color{accent}\rule{\linewidth}{1.2pt}}\\[0.9em]
-  {\LARGE\bfseries PCB Design with KiCad -- Lab Report}\\[0.4em]
-  {\color{muted}CMOS Inverter with Discrete MOSFETs (2N7000 / BS250)}\\[0.6em]
-  {\color{accent}\rule{\linewidth}{1.2pt}}
+  {\color{accent}\rule{\linewidth}{1.4pt}}\\[1em]
+  {\LARGE\bfseries PCB Design with KiCad -- Lab Report}\\[0.5em]
+  {\color{muted}CMOS Inverter with Discrete MOSFETs (2N7000 / BS250)}\\[0.8em]
+  {\color{accent}\rule{\linewidth}{1.4pt}}
 \end{center}
 
-\begin{tabularx}{\linewidth}{@{}l X l X@{}}
-  \textbf{Name} & \blank[5.5cm] & \textbf{Roll No.} & \blank[4cm] \\
-  \textbf{Section} & \blank[5.5cm] & \textbf{Date} & \blank[4cm] \\
-  \textbf{GitHub repo} & \multicolumn{3}{l}{\blank[12cm]} \\
+\begin{tabularx}{\linewidth}{@{}>{\bfseries\color{accent}}l X >{\bfseries\color{accent}}l X@{}}
+  Name & M Tuladhar Reddy & Roll No. & 25EC01048 \\
+  GitHub & \multicolumn{3}{l}{\url{https://github.com/25ec01048-prog/kiCAD}} \\
 \end{tabularx}
-
-\subsection*{Summary}
-\textit{(3--5 lines: what you built, the main result, and the main thing that surprised you.)}
-\answerlines{4}
 
 % ================= EXERCISE 0 =================
 \section{Exercise 0 -- Pre-KiCad: Simulate Before You Build}
 
 \subsection{L1. LTspice schematic}
-Transistor models used: Q1 = \blank[3cm] (source: \blank[4cm]); Q2 = \blank[3cm] (source: \blank[4cm]).\\
-LED / diode model: \blank[4cm]\quad R1 = \blank[2cm]\quad VDD = \blank[1.5cm]
+\begin{table}[H]\centering
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l l >{\ttfamily\small\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{\color{accent}Component} & \textbf{\color{accent}Part} & \textnormal{\textbf{\color{accent}Model / source file}} \\
+\midrule
+Q1 (NMOS) & 2N7000 & 2N7000.onsemi.lib \\
+Q2 (PMOS) & BS250  & BS250.philips.lib \\
+D1 (LED)  & Level-1 diode & .model LED D(Is=1e-18 N=1.8 Rs=5 Cjo=30p) \\
+\bottomrule
+\end{tabularx}
+\caption{Components and SPICE models used}
+\end{table}
+$R_1=$ 1 k$\Omega$ \qquad $V_{DD}=5$\,V
 \shot[6.5cm]{figures/l1-schematic.png}{LTspice schematic with model names visible}
-\checkpoint{schematic screenshot with model names visible}
+
 
 \subsection{L2. Voltage transfer curve}
-Command: \texttt{.dc VIN 0 5 0.01}\quad Switching threshold $V_M$ ($V_{OUT}=V_{DD}/2$) = \blank[2cm] V.
+Command: \texttt{.dc VIN 0 5 0.01}\quad Switching threshold $V_M$ ($V_{OUT}=V_{DD}/2$) = 2.32 V.
 \shot[6.5cm]{figures/l2-vtc.png}{VTC with $V_M$ marked}
-Flat dead zone observed?\quad $\square$ Yes \quad $\square$ No \quad Range of $V_{IN}$: \blank[2cm] to \blank[2cm] V
+\topic{Dead zone}
+Flat dead zone observed Range of $V_{IN}$: 0 to 2 V and 2.5 to 5 V \\
+With $V_{DD}=9$\,V: $V_M=$ 4.06 V; dead zone now 0 to 3 V.
 
-With $V_{DD}=9$\,V: $V_M=$ \blank[2cm] V; dead zone now \blank[2cm] to \blank[2cm] V.
-\question{What changes with $V_{DD}$, and why does the dead zone exist? (Hint: $|V_{TH}|$ of each device vs.\ $V_{DD}$.)}
-\answerlines{4}
-\checkpoint{VTC plot with $V_M$ marked, and your answer on the dead zone}
+\topic{Observation}
+Increase in $V_{dd}$ increases the $V_{Th}$ , therfore a greater gate voltage i,e $V_{in}$ is required to turn o the mosfet and aquire the the inversion.
+
 
 \subsection{L3. LED current and transient}
-$I_{LED}$ at $V_{IN}=0$\,V from simulation: \blank[2cm]\,mA.\\
-Hand calculation $(V_{DD}-V_F)/R_1 = (\blank[1cm]-\blank[1cm])/\blank[1cm] =$ \blank[2cm]\,mA. \quad Difference: \blank[1.5cm]\,\%
+\topic{LED current}
+$I_{LED}$ at $V_{IN}=0$\,V from simulation: 4.24 mA.\\
+Hand calculation $(V_{DD}-V_F)/R_1 = ( 5-0.7)/1000 =$ 4.3 mA. \quad Difference: 1.41 \%
 
+\topic{Measurement statements}
 \texttt{.meas} statements used:
-\answerlines{2}
+\begin{flushleft}\ttfamily\footnotesize\color{muted}
+.meas TRAN V\_min MIN V(out) \\
+.meas TRAN V\_max MAX V(out) \\
+.meas TRAN RiseTime TRIG V(out)=\{V\_min + 0.1*(V\_max-V\_min)\} RISE=2 TARG V(out)=\{V\_min + 0.9*(V\_max-V\_min)\} RISE=2 \\
+.meas TRAN FallTime TRIG V(out)=\{V\_min + 0.9*(V\_max-V\_min)\} FALL=2 TARG V(out)=\{V\_min + 0.1*(V\_max-V\_min)\} FALL=2
+\end{flushleft}
 
+\topic{Results}
 \begin{table}[H]\centering
 \begin{tabularx}{0.85\linewidth}{@{}>{\bfseries}l X X@{}}
 \toprule
-\textbf{Quantity} & \textbf{Value} & \textbf{Unit} \\
+\textbf{\color{accent}Quantity} & \textbf{\color{accent}Value} & \textbf{\color{accent}Unit} \\
 \midrule
-$V_M$ & \cell & V \\
-$I_{LED}$ & \cell & mA \\
-$t_r$ (10--90\,\%) & \cell & \\
-$t_f$ (90--10\,\%) & \cell & \\
+$V_M$ & 2.3 & V \\
+$I_{LED}$ & 4.24 & mA \\
+$t_r$ (10--90\,\%) & 1.48 & $\mu$m \\
+$t_f$ (90--10\,\%) & 1.89 & $\mu$m\\
 \bottomrule
 \end{tabularx}
 \caption{Simulation results summary}
 \end{table}
-\shot[5.5cm]{figures/l3-transient.png}{Transient response, 0--5\,V pulse at 1\,kHz}
-\checkpoint{small table: $V_M$, $I_{LED}$, $t_r$, $t_f$}
+\shot[6.5cm]{figures/l3-transient.png}{Transient response, 0--5\,V pulse at 1\,kHz}
+\shot[6.5cm]{figures/l3-meas.png}{Measured Values from LTPICE}
 
 \subsection{L4. Python plot}
-Script name: \blank[5cm]\quad Commit link: \blank[9cm]
+Script name: vtc.py \quad 
 \shot[6.5cm]{figures/l4-vtc-python.png}{VTC reproduced in Python (300\,dpi)}
-\checkpoint{PNG, script, and commit link}
+
 
 \subsection{L5. Comparison with 65\,nm}
 \shot[6.5cm]{figures/l5-overlay.png}{Normalised VTC overlay: $V_{OUT}/V_{DD}$ vs.\ $V_{IN}/V_{DD}$}
-\question{In two sentences, why do the shapes differ?}
-\answerlines{3}
-\checkpoint{overlay plot and two-sentence explanation}
+\topic{Explanation}
+The above overlay is achived by using components pmos4 and nmos4 present in the componenet library of ltspice and including the 65nm\_bulk ptm with 1.1 volt $V_{dd}$ \\
+As expected the ouput of 65nm\_bulk is less as less input is driving it. This i due to low voltage working ranging of 65nm mosfet compared to that of the discrete ones which is achived by their different designs.\\
+Even though they are fundamentally same but designed for completely different purposes, one is a vertical DMOS (BS250 and 2N7000) and one is lateral (65nm mosfet designed in class) structured, one is made by Double diffusion and has thick oxide  other is made by lithography with very small oxides respectively.
+These differences lead to the different use case of each of the technologies one for high voltages other at low voltages.
 
 % ================= EXERCISE 1 =================
 \section{Exercise 1 -- Schematic Capture and ERC}
-Project name (roll number): \blank[4cm]\quad Submitted file: \texttt{<roll>\_INV.kicad\_sch} $\square$
-
-Checklist: $\square$ Eight symbols placed \quad $\square$ Q2 flipped \quad $\square$ +5V, GND, 2$\times$PWR\_FLAG \quad $\square$ POT\_W and VIN labelled and brought to J2 \quad $\square$ Annotated
+\subsection*{Schematic and ERC result}
+Submitted file: \texttt{25EC01048\_INV.kicad\_sch}
 
 \shot[6cm]{figures/e1-erc.png}{ERC dialog: 0 errors, 0 warnings}
+\shot[6cm]{figures/e1-schematic.png}{Schematic}
+\subsection*{Discussion}
 \question{Why does this schematic need a PWR\_FLAG at all?}
-\answerlines{3}
+A PWR\_FLAG defines that the current net is connected via an external source which prevents eroors while ERC, since the +5v and GND are just net labels not active power sources.
 \question{What would change if the 5\,V came from an on-board regulator instead of a screw terminal?}
-\answerlines{3}
+The PWR\_FlAG is not required in this case as there is defined power output to the net not just some label.
 
 % ================= EXERCISE 2 =================
 \section{Exercise 2 -- Footprints}
-Exact part numbers issued: 2N7000 \blank[3.5cm] \quad BS250 \blank[3.5cm] \quad Manufacturer(s): \blank[4cm]
-
+\subsection*{Pin comparison}
+Exact part numbers issued: 2N7000  \quad BS250 \quad Manufacturer(s): VISHAY
 \begin{table}[H]\centering
 \begin{tabularx}{\linewidth}{@{}l c X X X@{}}
 \toprule
-\textbf{Part} & \textbf{Lead / Pin} & \textbf{KiCad symbol pin} & \textbf{Datasheet lead} & \textbf{Agree?} \\
+\textbf{\color{accent}Part} & \textbf{\color{accent}Lead / Pin} & \textbf{\color{accent}KiCad symbol pin} & \textbf{\color{accent}Datasheet lead} & \textbf{\color{accent}Agree?} \\
 \midrule
-\multirow{3}{*}{Q1 (2N7000)} & 1 & \cell & \cell & \cell \\
- & 2 & \cell & \cell & \cell \\
- & 3 & \cell & \cell & \cell \\
+\multirow{3}{*}{Q2 (2N7000)} & 1 & Source & Source & Yes \\
+ & 2 & Gate & Gate & Yes \\
+ & 3 & Drain & Drain & Yes \\
 \midrule
-\multirow{3}{*}{Q2 (BS250)} & 1 & \cell & \cell & \cell \\
- & 2 & \cell & \cell & \cell \\
- & 3 & \cell & \cell & \cell \\
+\multirow{3}{*}{Q1 (BS250)} & 1 & Drain & Drain & Yes \\
+ & 2 & Gate & Gate & Yes \\
+ & 3 & Source & Source & Yes \\
 \bottomrule
 \end{tabularx}
 \caption{Symbol pins vs.\ datasheet leads (write S, G or D in each cell)}
 \end{table}
-Netlist update (F8) report: \blank[1cm] warnings, \blank[1cm] errors.
+Netlist update (F8) report: 0 warnings, 0 errors.
 
+\subsection*{Discussion}
 \question{Do your two parts agree with their symbols? For any that does not, give two ways to deal with it on a board that has already been fabricated.}
-\answerlines{5}
+
+Yes, they both agree for the two parts.
+
+For already fabricated one we can overcome this mismatch by:- \\
+1. Soldering the component in the right sense.\\
+2. Creating a simple converter pcb to match with the design numbering.
 
 % ================= EXERCISE 3 =================
 \section{Exercise 3 -- Layout, Routing and DRC}
-Checklist: $\square$ 50$\times$40\,mm outline on Edge.Cuts \quad $\square$ Four M3 holes, 4\,mm from corners, Not in schematic \quad $\square$ Power net class (+5V, GND) \quad $\square$ GND pour on B.Cu with thermal reliefs \quad $\square$ Silkscreen $\ge$1\,mm inside outline
 
-Track widths: signal \blank[1.5cm]\,mm \quad Power \blank[1.5cm]\,mm \quad Clearance \blank[1.5cm]\,mm \quad Via \blank[1.5cm]\,mm
+\subsection*{Design rules}
+Track widths: signal = 0.25 \,mm \quad Power = 0.8\,mm \quad Clearance= 0.2 mm \quad Via (drill) = 0.3 mm
 
+\subsection*{DRC and 3D view}
 \shot[6cm]{figures/e3-drc.png}{DRC dialog: Violations, Unconnected Items, Schematic Parity all 0}
-\shot[7cm]{figures/e3-3d-top.png}{3D viewer, top of the board}
+\shot[7cm]{figures/e3-3d.png}{3D viewer, top of the board}
 
-\subsection*{+5V track resistance (J1 to Q2)}
+\subsection*{+5V track resistance (J1 to Q1)}
 \[
 R=\frac{\rho L}{w\,t},\qquad \rho_{Cu}=1.68\times10^{-8}\,\Omega\,\mathrm{m},\quad t=35\,\mu\mathrm{m}
 \]
-Measured length $L=$ \blank[2cm]\,mm \quad Width $w=$ \blank[2cm]\,mm\\[0.4em]
-$R=\dfrac{1.68\times10^{-8}\,\times\,(\blank[1.4cm]\times10^{-3})}{(\blank[1.4cm]\times10^{-3})\times(35\times10^{-6})}=$ \blank[2cm]\,$\Omega$\\[0.4em]
-Voltage drop at $I=$ \blank[1.5cm]\,mA: $\Delta V=$ \blank[2cm]\,mV \quad (\blank[1.5cm]\,\% of 5\,V)
+Measured length $L=$ 42 mm \quad Width $w=$ 0.8 mm\\[0.4em]
+$R=\dfrac{1.68\times10^{-8}\,\times\,(42\times10^{-3})}{(0.8\times10^{-3})\times(35\times10^{-6})}=$ 0.025 $\Omega$\\[0.4em]
+Voltage drop at $I=$  4.24 mA (found from SPICE): $\Delta V=$ 0.106 mV \quad ( 0.002 \% of 5\,V)
 
+\subsection*{Discussion}
 \question{Does the width you chose matter electrically on this board? Justify with a number.}
-\answerlines{3}
+Yes it does matter as different width results in different thickness of the track which is needed to accomodate high voltages like 5v in this case.
+With decrease in the track width from 0.8 mm to 0.25 mm a higher resistance is found that is 0.08 $\Omega$ which will result in a higher voltage drop or increased power dissipation causing further issues like heating, decreased performance.
+
 
 % ================= EXERCISE 4 =================
 \section{Exercise 4 -- Manufacturing Outputs}
-\begin{table}[H]\centering
-\begin{tabularx}{\linewidth}{@{}X c c@{}}
-\toprule
-\textbf{Deliverable} & \textbf{Done} & \textbf{Checked in GerbView} \\
-\midrule
-Gerbers plotted to \texttt{gerbers/} & $\square$ & $\square$ \\
-Drill files (PTH + NPTH) & $\square$ & $\square$ \\
-Outline / drill holes / silkscreen verified & -- & $\square$ \\
-BOM exported as CSV & $\square$ & -- \\
-\texttt{<roll>\_INV\_gerbers.zip} & $\square$ & -- \\
-Project archive zip & $\square$ & -- \\
-\bottomrule
-\end{tabularx}
-\end{table}
-Number of Gerber layers loaded: \blank[1.2cm] \quad Board size read back in GerbView: \blank[1.5cm]\,$\times$\,\blank[1.5cm]\,mm
-\shot[7cm]{figures/e4-gerbview.png}{GerbView with all layers loaded}
+\subsection*{GerbView check}
+Number of Gerber layers loaded: 13 \quad Board size read back in GerbView: 40 mm $\times$\,50 mm
+\shot[7cm]{figures/e4.png}{GerbView with all layers loaded}
+\subsection*{Discussion}
 \question{Name a file which, if omitted from the zip, still lets the factory quote a price but produces an unusable board. Justify.}
-\answerlines{4}
+The missing file is the NC Drill file (.drl). Factories can still calculate a quote using the board outline and copper Gerber files to determine size and layer count. However, without drill coordinates, the board is fabricated with no vias, component holes, or mounting cutouts, making it completely unusable.
 
-% ================= EXERCISE 5 =================
+
 \section{Exercise 5 -- Extra Explorations (Optional)}
-Change attempted (tick one): $\square$ 1 Non-inverting buffer \quad $\square$ 2 LED lights on low output \quad $\square$ 3 Min.\ clearance 0.4\,mm \quad $\square$ 4 Header instead of trimpot, shrunk board
+\subsection*{Q1. Non-inverting buffer (second identical inverter stage)}
+\shot[6.5cm]{figures/ex5-1-ltspice.png}{LTspice simulation of the modified circuit}
+\shot[6.5cm]{figures/ex5-1-3d.png}{3D viewer, top of the modified board}
+\shot[6.5cm]{figures/ex5-1-gerberview.png}{GerbView with all layers loaded (new Gerber set)}
+\shot[6.5cm]{figures/ex5-1-drc-check.png}{DRC check: Violations, Unconnected Items, Schematic Parity all 0}
+\question{Simulate in LTspice and explain why the two-stage circuit is non-inverting.}
+The already inverted output is inverted back again wokring as a non inverting buffer.
+\question{The ratsnest gets harder; does your placement still work? Attempt and explain.}
+Yes my placement still works as only two more components get added.
 
-\subsection*{Simulation / design description}
-\answerlines{4}
-\shot[6cm]{figures/e5-sim.png}{Simulation of the modified circuit (if applicable)}
-\shot[6cm]{figures/e5-layout.png}{Modified layout with clean DRC}
+\question{What did this change cost compared with the Exercise 4 design (board space, trace lengths between pins; mark pins with letters)?}
+Just the cost of the two componnents and some extra routing and nothing else.
 
-\subsection*{Cost of the change}
-\begin{table}[H]\centering
-\begin{tabularx}{\linewidth}{@{}l X X X@{}}
-\toprule
-\textbf{Metric} & \textbf{Original} & \textbf{Modified} & \textbf{Change} \\
-\midrule
-Board area (mm$^2$) & \cell & \cell & \cell \\
-Trace length A--B (mm) & \cell & \cell & \cell \\
-Trace length C--D (mm) & \cell & \cell & \cell \\
-Number of vias & \cell & \cell & \cell \\
-Parts moved / re-routed & \cell & \cell & \cell \\
-\bottomrule
-\end{tabularx}
-\caption{Original (Exercise 4) vs.\ modified design; label pins with letters and state which distances changed}
-\end{table}
-\subsection*{Explanation and conclusion}
-\answerlines{5}
+\subsection*{Q2. LED lights when the output is low}
+\shot[6.5cm]{figures/ex5-2-ltspice.png}{LTspice simulation of the modified circuit}
+\shot[6.5cm]{figures/ex5-2-3d.png}{3D viewer, top of the modified board}
+\shot[6.5cm]{figures/ex5-2-gerberview.png}{GerbView with all layers loaded (new Gerber set)}
+\shot[6.5cm]{figures/ex5-2-drc-check.png}{DRC check: Violations, Unconnected Items, Schematic Parity all 0}
+\question{Explain what moving the LED does to the current drawn from the output node.}
+The addition of new inverter which inverts the signal on output to run the LED, The current drawn from the otuput node depneds on the external load , without any external load it is of the order of Femto ampere as seen in the graph which required the multiplication by a husge number o pull upto milli ampere and to recieve an visible graph and inverting action.
 
-% ================= CONCLUSION =================
-\section{Overall Observations and Conclusions}
-\textbf{Simulation vs.\ board:} (what you expect the board to do, and the figures to test it against)
-\answerlines{3}
-\textbf{Key lessons:}
-\begin{enumerate}[leftmargin=1.5em,label=\color{accent}\arabic*.]
-  \item \blank[14cm]
-  \item \blank[14cm]
-  \item \blank[14cm]
-\end{enumerate}
+\question{What did this change cost compared with the Exercise 4 design (board space, trace lengths between pins; mark pins with letters)?}
+Only the addition of two extra components of inverter.
 
-\subsection*{Submission checklist}
-\begin{tabularx}{\linewidth}{@{}X X@{}}
-$\square$ Report (this PDF) & $\square$ \texttt{<roll>\_INV.kicad\_sch} \\
-$\square$ \texttt{<roll>\_INV.kicad\_pcb} & $\square$ \texttt{<roll>\_INV\_gerbers.zip} \\
-$\square$ Project archive & $\square$ BOM \texttt{.csv} \\
-$\square$ Python script, PNG and commit link & $\square$ All screenshots full-window and readable \\
-\end{tabularx}
+\subsection*{Q3. Change of Constraints for cheaper fabrication }
+
+\shot[6.5cm]{figures/ex5-3-3d.png}{3D viewer, top of the modified board}
+\shot[6.5cm]{figures/ex5-3-drc-check.png}{DRC check: Violations, Unconnected Items, Schematic Parity all 0}
+\question{What changes are made?}
+\verb|Only change of mosfet footprints from Package_TO_SOT_THT:TO-92_Inline to Package_TO_SOT_THT:TO-92_Inline_Wide and some rerouting.|
+
+\subsection*{Q4. Decrease size and remove Tripot and add two pin header }
+\shot[6.5cm]{figures/ex5-4-schematic.png}{schematic of modified circuit}
+\shot[6.5cm]{figures/ex5-4-3d.png}{3D viewer, top of the modified board}
+\shot[6.5cm]{figures/ex5-4-drc-check.png}{DRC check: Violations, Unconnected Items, Schematic Parity all 0}
+\question{What changes are made?}
+\verb|Decreased the size from 50 mm x 40 mm to 33 mm x 29 mm (approximately)|
+
+
+
 
 \end{document}

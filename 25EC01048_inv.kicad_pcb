@@ -1799,7 +1799,7 @@
 		(tags "to-92 sc-43 sc-43a sot54 PA33 transistor")
 		(property "Reference" "Q1"
 			(at 1.27 -3.56 90)
-			(layer "F.SilkS" knockout)
+			(layer "F.SilkS")
 			(uuid "2aacbbc8-f3c1-4e28-9c85-fffb18f095da")
 			(effects
 				(font
